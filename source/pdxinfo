@@ -1,0 +1,6 @@
+name=Ghost Hunting Knight
+author=Jonathan Levstein
+description=It's a test!
+bundleID=com.organization.package
+version=0.0.1
+buildNumber=1
