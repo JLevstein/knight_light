@@ -5,10 +5,7 @@ class('Enemy').extends(gfx.sprite)
 
 function Enemy:init(x, y, direction)
     self.travelDirection = nil
-    self.weakness = nil
     self.health = 100
-    self.speed = 1
-
     self.spritesheet = gfx.imagetable.new("images/enemy")
     local currentSprite = self.spritesheet:getImage(1)
     self:setImage(currentSprite)
@@ -16,7 +13,6 @@ function Enemy:init(x, y, direction)
     self:add()
 
     self:changeDirection(direction)
-    -- self:moveWithCollisions(200, 120)
 end
 
 function Enemy:changeDirection(newDirection)
@@ -24,15 +20,11 @@ function Enemy:changeDirection(newDirection)
     
     if newDirection == "north" then
         self:setRotation(180)
-        self.weakness = "south"
     elseif newDirection == "south" then
-        self.weakness = "north"
     elseif newDirection == "east" then
         self:setRotation(270)
-        self.weakness = "west"
     elseif newDirection == "west" then
         self:setRotation(90)
-        self.weakness = "east"
     end
     self:setCollideRect(0,0,self:getSize())
 
@@ -43,7 +35,24 @@ function Enemy:changeDirection(newDirection)
 end
 
 function Enemy:update()
-    if self.x == 200 and self.y == 120 then
-        print("GAME OVER!")
+    local collisions = self:overlappingSprites()
+    for i = 1, #collisions do
+        local other = collisions[i]
+        
+        if other:isa(Flashlight) then
+            self:subtractHealth()
+        end
     end
+end
+
+function Enemy:subtractHealth()
+    self.health -= 5
+    
+    if self.health <= 0 then
+        self:removeSprite(self)
+    end
+end
+
+function Enemy:collisionResponse(other)
+    return "overlap"
 end

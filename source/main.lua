@@ -2,6 +2,7 @@ import "Corelibs/object"
 import "Corelibs/graphics"
 import "Corelibs/sprites"
 import "Corelibs/animator"
+import "Corelibs/animation"
 import "Corelibs/timer"
 import "Corelibs/ui"
 

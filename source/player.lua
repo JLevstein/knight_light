@@ -5,9 +5,6 @@ import "flashlight"
 
 class('Player').extends(gfx.sprite)
 
--- playerSpriteSheet = nil;
--- currentSprite = nil;
-
 function Player:init(x, y)
     self.direction = "north"
 
@@ -36,18 +33,22 @@ function Player:changeDirection()
         currentSprite = self.playerSpritesheet:getImage(4)
         self.direction = "east"
         self.flashlight:setRotation(90)
+        self.flashlight:updateRect()
     elseif pd.getCrankPosition() >= 90 and pd.getCrankPosition() < 180 then
         currentSprite = self.playerSpritesheet:getImage(1)
         self.direction = "south"
         self.flashlight:setRotation(180)
+        self.flashlight:updateRect()
     elseif pd.getCrankPosition() >= 180 and pd.getCrankPosition() < 270 then
         currentSprite = self.playerSpritesheet:getImage(2)
         self.direction = "west"
         self.flashlight:setRotation(270)
-    elseif pd.getCrankPosition() >= 270 and pd.getCrankPosition() < 360 then
+        self.flashlight:updateRect()
+    elseif pd.getCrankPosition() >= 270 and pd.getCrankPosition() <= 360 then
         currentSprite = self.playerSpritesheet:getImage(3)
         self.direction = "north"
-        self.flashlight:setRotation(0)
+        self.flashlight:setRotation(0.1)
+        self.flashlight:updateRect()
     end 
     
     self:setImage(currentSprite)

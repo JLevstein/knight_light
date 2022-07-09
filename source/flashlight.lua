@@ -1,14 +1,21 @@
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
+import 'enemy'
+
 class('Flashlight').extends(gfx.sprite)
 
 function Flashlight:init(x, y)
     local flashlightImage = gfx.image.new("images/flashlight")
     self:setImage(flashlightImage)
-    -- self:setCollideRect(0,0,self:getSize())
+    self:setCenter(0.5, 1)
+    self:setCollideRect(0,0,self:getSize())
     self:moveTo(x, y)
     self:add()
+end
+
+function Flashlight:updateRect()
+    self:setCollideRect(0,0,self:getSize())
 end
 
 function Flashlight:update()
