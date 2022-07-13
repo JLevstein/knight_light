@@ -32,13 +32,13 @@ local function spawnEnemy()
         local enemyDirection = directions[math.random(4)]
                 
         if enemyDirection == "north" then
-            Enemy(math.random(0, 400), 240, enemyDirection)
+            Enemy(math.random(50, 350), 240, enemyDirection)
         elseif enemyDirection == "south" then
-            Enemy(math.random(0, 400), 15, enemyDirection)
+            Enemy(math.random(50, 350), 0, enemyDirection)
         elseif enemyDirection == "east" then
-            Enemy(15, math.random(0, 240), enemyDirection)
+            Enemy(0, math.random(30, 210), enemyDirection)
         elseif enemyDirection == "west" then
-            Enemy(400, math.random(0, 240), enemyDirection)
+            Enemy(400, math.random(30, 210), enemyDirection)
         end
 
         spawnEnemy()
