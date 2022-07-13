@@ -1,6 +1,7 @@
 TO DO
 [x] Add collision detection for flashlight and enemies via collision groups
 [x] Add in health bar for enemies
+[] animate enemies
 [] Add in score for each enemy killed
 [] Feedback for enemies taking damage (blinker?)
 [] Game over/replay screen

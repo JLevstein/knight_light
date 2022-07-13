@@ -1,17 +1,21 @@
+import "external/AnimatedSprite"
+
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-class('Enemy').extends(gfx.sprite)
+class('Enemy').extends(AnimatedSprite)
 
 function Enemy:init(x, y, direction)
     self.travelDirection = nil
     self.health = 100
-    self.spritesheet = gfx.imagetable.new("images/enemy")
-    local currentSprite = self.spritesheet:getImage(1)
-    self:setImage(currentSprite)
+    
+    local spritesheet = gfx.imagetable.new("images/enemy")
+    Enemy.super.init(self, spritesheet)
+    
+    self:addState("idle", 1, 3, { yoyo = true, tickStep = 6 })
+    self:playAnimation()
     self:moveTo(x, y)
-    self:add()
-
+    
     self:changeDirection(direction)
 end
 
@@ -21,21 +25,24 @@ function Enemy:changeDirection(newDirection)
     if newDirection == "north" then
         self:setRotation(180)
     elseif newDirection == "south" then
+        -- do 
     elseif newDirection == "east" then
         self:setRotation(270)
     elseif newDirection == "west" then
         self:setRotation(90)
     end
-    self:setCollideRect(0,0,self:getSize())
 
     local path = pd.geometry.lineSegment.new(self.x, self.y, 200, 120)
-    local anim = gfx.animator.new(4000, path, pd.easingFunctions.linear)
+    local pathAnim = gfx.animator.new(4000, path, pd.easingFunctions.linear)
 
-    self:setAnimator(anim, true)
+    self:setAnimator(pathAnim, false)
 end
 
 function Enemy:update()
+    self:setCollideRect(0, 0, self:getSize())
+    
     local collisions = self:overlappingSprites()
+    
     for i = 1, #collisions do
         local other = collisions[i]
         
@@ -43,6 +50,8 @@ function Enemy:update()
             self:subtractHealth()
         end
     end
+
+    self:updateAnimation()
 end
 
 function Enemy:subtractHealth()
